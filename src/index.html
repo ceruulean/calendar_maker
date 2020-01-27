@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Calendar Maker!</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" type="text/css" href="main.css">
+  </head>
+  <body>
+    <h1>Calendar Maker</h1>
+    We are using node <script>document.write(process.versions.node)</script>,
+    Chrome <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+    <div id="toolbar">
+    </div>
+    <div class="mainspace">
+      <div id="gallery-panel">
+      </div>
+      <div id="workspace">
+      </div>
+      <div id="properties-panel">
+      </div>
+    </div>
+
+    <script>
+const Controller = require('./mvc_controller.js');
+
+Controller.wow();
+// document.querySelector('form').addEventListener('submit', (event) => {
+//     event.preventDefault();
+//     const { path } = document.querySelector('input').files[0];
+//     ipcRenderer.send('video:submit', path); // (eventName, data that we want to send) - eventName in the form a colon based system. (name of the thing you are dealing with:verb) - video:submit. electron app has to be set up to receive this message as well.
+// });ipcRenderer.on('video:metadata', (event, duration) => {
+//     document.querySelector('#result').innerHTML = `Video is ${duration} seconds`;
+// });
+    </script>
+  </body>
+</html>

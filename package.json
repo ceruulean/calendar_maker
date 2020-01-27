@@ -1,0 +1,16 @@
+{
+  "name": "calendar_maker",
+  "version": "1.0.0",
+  "description": "make calendar pdfs by uploading and adding custom dates",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "Diana Wu",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^7.1.10",
+    "electron-store": "^5.1.0"
+  }
+}
