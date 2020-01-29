@@ -1,0 +1,114 @@
+
+/*International Metric Units*/
+page {
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0.1cm 0.2cm rgba(0,0,0,0.5);
+  zoom:50%;
+}
+page[size="A4"] {  
+  width: 21cm;
+  height: 29.7cm; 
+}
+page[size="A4"][layout="landscape"] {
+  width: 29.7cm;
+  height: 21cm;  
+}
+page[size="A3"] {
+  width: 29.7cm;
+  height: 42cm;
+}
+page[size="A3"][layout="landscape"] {
+  width: 42cm;
+  height: 29.7cm;  
+}
+page[size="A5"] {
+  width: 14.8cm;
+  height: 21cm;
+}
+page[size="A5"][layout="landscape"] {
+  width: 21cm;
+  height: 14.8cm;  
+}
+page[size="A6"] {
+  width: 10.5cm;
+  height: 14.8cm;
+}
+page[size="A6"][layout="landscape"] {
+  width: 14.8cm;
+  height: 10.5cm;  
+}
+/*US Imperial Units*/
+page[size="letter"][layout="landscape"] {
+  width: 11in;
+  height: 8.5in;  
+}
+page[size="letter"] {
+  width: 8.5in;
+  height: 11in;  
+}
+page[size="legal"][layout="landscape"] {
+  width: 14in;
+  height: 8.5in;  
+}
+page[size="legal"] {
+  width: 8.5in;
+  height: 14in;  
+}
+page[size="tabloid"][layout="landscape"] {
+  width: 17in;
+  height: 11in;  
+}
+page[size="tabloid"] {
+  width: 11in;
+  height: 17in;  
+}
+
+page[size="ARCHA"][layout="landscape"] {
+  width: 12in;
+  height: 9in;  
+}
+page[size="ARCHA"] {
+  width: 9in;
+  height: 12in;  
+}
+page[size="ARCHB"][layout="landscape"] {
+  width: 18in;
+  height: 12in;  
+}
+page[size="ARCHB"] {
+  width: 12in;
+  height: 18in;  
+}
+page[size="ARCHC"][layout="landscape"] {
+  width: 24in;
+  height: 18in;  
+}
+page[size="ARCHC"] {
+  width: 18in;
+  height: 24in;  
+}
+page[size="ARCHD"][layout="landscape"] {
+  width: 36in;
+  height: 24in;  
+}
+page[size="ARCHD"] {
+  width: 24in;
+  height: 36in;  
+}
+page[size="ARCHE"][layout="landscape"] {
+  width: 48in;
+  height: 36in;  
+}
+page[size="ARCHE"] {
+  width: 36in;
+  height: 48in;  
+}
+@media print {
+  body, page {
+    margin: 0;
+    box-shadow: 0;
+  }
+}

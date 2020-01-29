@@ -1,13 +1,10 @@
 const Cal = require('./calendar');
+
 //const mvcController = require('./mvc_controller');
 
 //UI!!!!!!!
 
 let months = Cal.MONTHS["FULL"];
-
-function isEmpty(vbl){
-  return (vbl === undefined || vbl === null)
-}
 
 function createMonthPicker(name, selectedIndex){
       let mp = document.createElement("select");
@@ -91,54 +88,99 @@ function toolbarInit(format){
     div1.appendChild(createLabel(" to "));
     div1.appendChild(endMonth);
     div1.appendChild(endYear);
-
-
-    let div2 = createElementAttr('div', {class:"format"});
     
+    let div2 = createElementAttr('div', {class:"format"});
     div2.appendChild(createLabel("Format "));
     let formatMode = createSelectElement("format", [
       "Flip", "Wide", "Glance"
     ])
     div2.appendChild(formatMode);
-
     toolbar.appendChild(div2);
+
+    return {
+      selects: [startMonth, endMonth, formatMode],
+      inputs: [startYear, endYear],
+    }
 }
 
-function galleryPanelRender(mediaLabels, imageData){
-let galleryPanel = document.getElementById("gallery-panel");
-  galleryPanel.innerHTML = "";
-//galleryPanel.appendChild(createElementAttr('div', {class: ''}, 'Add Images'));
-  for (let m = 0; m < mediaLabels.length; m++) {
-    galleryPanel.appendChild(galleryItemComponent(mediaLabels[m], imageData[m]));
-  }
-}
-
-function propertiesPanelRender(){
-
-}
-
-function workspaceRender(){
-
-}
-
-function previewRender(){
+let gallery = {
+  root: document.getElementById("gallery-panel"),
+  itemComponent(label, fileData, index) {
+    let wrapper = createElementAttr('div', {class:"gallery item", tabIndex: index});
+    if (!isEmpty(fileData)) {
+      wrapper.appendChild(createElementAttr('img', {'src' : fileData.path}));
+    } else {
+      wrapper.appendChild(createElementAttr('div', {class:"placeholder"}));
+    }
+    wrapper.appendChild(createElementAttr('label', null, label));
   
+    return wrapper;
+  },
+  /**Returns the newly rendered gallery items */
+  renderPanel(mediaLabels, filesArray){
+    this.root.innerHTML = "";
+      for (let m in mediaLabels) {
+        this.root.appendChild(this.itemComponent(`${mediaLabels[m][0]} ${mediaLabels[m][1]}`, filesArray[m], m));
+      }
+      return this.root.children;
+    },
 }
 
-let galleryItemComponent = (label, imgData) => {
-  let wrapper = createElementAttr('div', {class:"gallery item"});
-  if (!isEmpty(imgData)) {
-    wrapper.appendChild(createElementAttr('img', {'data-src' : imgData}));
-  } else {
-    wrapper.appendChild(createElementAttr('div', {class:"placeholder"}));
+let uploader = {
+  buffer: document.getElementById('u-buffer'),
+  single: createElementAttr('input', {type:'file', accept:'image/*,.pdf'}),
+  openSingleBrowser(){
+    this.single.click();
+    return this.single;
+  },
+  bufferItem(fileData, index){
+    return createElementAttr('img', {'src' : fileData.path, 'tabIndex' : index});
+  },
+  renderBuffer(filesArray, startIndex){
+    this.buffer.innerHTML = '';
+    for (let m = startIndex; m < filesArray.length; m++) {
+      this.buffer.appendChild(this.bufferItem(filesArray[m]), m);
+    }
   }
-  wrapper.appendChild(createElementAttr('label', null, label));
-
-  return wrapper;
 }
 
+let properties = {
+  renderPanel(){
+//TODO
+  }
+}
+
+let workspace = {
+/**a monthsArr element should be [year:integer, monthIndex:integer] */
+  render(monthsArr, formatPaper){
+  let formPaper;
+  switch (formatPaper) {
+    default: {
+       formPaper = (y, mI, s, l) => {return new FlipCalendar(y, mI, s, l)};
+    }
+  }
+  for (let m in monthsArr) {
+   // console.log(`${monthsArr[m][1]}, ${monthsArr[m][0]}`)
+  }
+
+}
+}
+
+
+let previewer = {
+  //TODO
+}
+
+/** I wish this was universal or something */
+function isEmpty(vbl){
+  return (vbl === undefined || vbl === null)
+}
 
 module.exports = {
-  toolbarInit: toolbarInit,
-  galleryPanelRender: galleryPanelRender,
+  createElementAttr,
+  toolbarInit,
+  gallery,
+  uploader,
+  workspace,
+  properties,
   }

@@ -1,6 +1,38 @@
+/* require('@uppy/core/dist/style.css');
+@import '@uppy/dashboard/dist/style.css'y */
+
 :root{
   --galleryAltColor: rgb(222, 222, 222);
+  --selectedItemColor: rgba(0,0,200,0.4);
+  --thumbnail: 5rem;
 }
+
+body{
+  padding:0;
+  margin:0;
+}
+
+
+::-webkit-scrollbar {
+  width: 4px;
+  height:0;
+}
+::-webkit-scrollbar-button {
+  width: 46px;
+  height:0;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 48px;
+}
+::-webkit-scrollbar-track {
+  background: #666666;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* TOOLBAR */
 
 #toolbar{
   display:flex;
@@ -16,29 +48,50 @@
   margin: 0 1rem 0 5rem;
 }
 
+/* MAIN SPACE */
+
+
 .mainspace{
   display:flex;
   flex-flow:row nowrap;
   height:80vh;
   border: 1px solid rgba(0,0,0,0.5);
+  width:100%;
 }
 
+/*UPLOADER*/
+#u-buffer{
+max-width:7rem;
+}
 
+#u-buffer img{
+  max-height:var(--thumbnail);
+  cursor:pointer;
+}
+
+/* GALLERY PANEL*/
 #gallery-panel{
-  flex-grow:1;
+  flex-basis: min-content;
   border: 1px solid rgba(0,0,0,0.5);
   overflow-y:scroll;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: 4px; /* Firefox */
 }
 
-#gallery-panel::-webkit-scrollbar { /* WebKit */
-  width: 0;
-  height: 0;
-}
 
 #gallery-panel .item:nth-child(even){
   background-color:var(--galleryAltColor);
+}
+
+.gallery.item {
+  display:flex;
+  flex-flow:column wrap;
+}
+
+.gallery.item > * {
+  margin: 0.5rem auto;
+  max-width:100%;
+  max-height:var(--thumbnail);
+  cursor:pointer;
 }
 
 .gallery.item .placeholder{
@@ -48,13 +101,29 @@
   background-image:url('./assets/plus.svg');
   background-repeat:no-repeat;
   background-position:center;
-  cursor:pointer;
 }
+
+.gallery.item.selected{
+  background-color:var(--selectedItemColor) !important;
+}
+
+
+/* WORK SPACE */
+
 
 #workspace{
   flex-grow:4;
+  overflow:scroll;
 }
+
+
+/* PROPERTIES PANEL */
+
 
 #properties-panel{
   flex-grow:2;
+  flex-basis:fit-content;
+  min-width:10rem;
+  border:1px dotted rgba(0,0,0,0.5);
 }
+

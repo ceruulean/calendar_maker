@@ -1,40 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-//const Controller = require('./mvc_controller');
-const Store = require('electron-store');
-const Model = require('./src/mvc_model.js');
- 
 
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
-
-var thisYear = new Date().getFullYear();
-
-const schema = {
-  format: {
-    startmonth: {
-      type: 'number',
-      default: 0
-    },
-    startyear: {
-      type: 'number',
-      default: thisYear,
-    },
-    endmonth: {
-      type: 'number',
-      default: 11
-    },
-    endyear: {
-      type: 'number',
-      default: thisYear,
-    }
-  },
-
-  media: {},
-};
-
-const store = new Store({schema});
 
 function createWindow () {
   // Create the browser window.
@@ -51,27 +20,6 @@ function createWindow () {
 
   // Open the DevTools.
   win.webContents.openDevTools()
-
-  ipcMain.on('sync:init', (e, arg) => {
-    Object.entries(schema.format).forEach(pair => {
-      if (!store.has(`format.${pair[0]}`)){
-        store.set(`format.${pair[0]}`, `${pair[1].default}`);
-      }
-    });
-
-    e.returnValue = store.get('format');
-  });
-
-  ipcMain.on('sync:galleryPanel', (e, arg) => {
-   // console.log('format');
-    e.returnValue = Model.gallerySlotLabels(store.get('format'))
-    });
-
-  ipcMain.on('select:format', (e, key, value) => {
-    store.set(`format.${key}`, value);
-    e.reply('update:galleryPanel', Model.gallerySlotLabels(store.get('format')));
-  })
-
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows

@@ -6,6 +6,7 @@
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="./calendar_style.css">
   </head>
   <body>
     <h1>Calendar Maker</h1>
@@ -15,6 +16,11 @@
     <div id="toolbar">
     </div>
     <div class="mainspace">
+      <div id="uploader">
+        <input type="file" id="upload-multiple" multiple accept="image/*,.pdf"></input>
+        <h2>Images</h2>
+        <div id="u-buffer"></div>
+      </div>
       <div id="gallery-panel">
       </div>
       <div id="workspace">
@@ -24,16 +30,7 @@
     </div>
 
     <script>
-const Controller = require('./mvc_controller.js');
-
-Controller.wow();
-// document.querySelector('form').addEventListener('submit', (event) => {
-//     event.preventDefault();
-//     const { path } = document.querySelector('input').files[0];
-//     ipcRenderer.send('video:submit', path); // (eventName, data that we want to send) - eventName in the form a colon based system. (name of the thing you are dealing with:verb) - video:submit. electron app has to be set up to receive this message as well.
-// });ipcRenderer.on('video:metadata', (event, duration) => {
-//     document.querySelector('#result').innerHTML = `Video is ${duration} seconds`;
-// });
+      const Controller = require('./mvc_controller.js');
     </script>
   </body>
 </html>

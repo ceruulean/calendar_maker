@@ -10,7 +10,12 @@
   "author": "Diana Wu",
   "license": "ISC",
   "devDependencies": {
+    "css-loader": "^3.4.2",
     "electron": "^7.1.10",
+    "electron-packager": "^14.2.0",
     "electron-store": "^5.1.0"
+  },
+  "dependencies": {
+    "@iconscout/unicons": "^2.0.8"
   }
 }
