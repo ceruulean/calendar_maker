@@ -105,6 +105,7 @@ function toolbarInit(format){
 
 let gallery = {
   root: document.getElementById("gallery-panel"),
+  panelItems: [],
   itemComponent(label, fileData, index) {
     let wrapper = createElementAttr('div', {class:"gallery item", tabIndex: index});
     if (!isEmpty(fileData)) {
@@ -118,12 +119,21 @@ let gallery = {
   },
   /**Returns the newly rendered gallery items */
   renderPanel(mediaLabels, filesArray){
-    this.root.innerHTML = "";
       for (let m in mediaLabels) {
-        this.root.appendChild(this.itemComponent(`${mediaLabels[m][0]} ${mediaLabels[m][1]}`, filesArray[m], m));
+        let e = this.itemComponent(`${mediaLabels[m][0]} ${mediaLabels[m][1]}`, filesArray[m], m);
+        this.root.appendChild(e);
+        this.panelItems.push(e);
       }
-      return this.root.children;
+      return this.panelItems;
     },
+  insertCover(file){
+    let cover = this.itemComponent(`Cover`, file, -1);
+    this.root.appendChild(cover);
+    return cover;
+  },
+  clearPanel(){
+    this.root.innerHTML = "";
+  }
 }
 
 let uploader = {
@@ -151,19 +161,24 @@ let properties = {
 }
 
 let workspace = {
+  root: document.getElementById('workspace'),
 /**a monthsArr element should be [year:integer, monthIndex:integer] */
   render(monthsArr, formatPaper){
-  let formPaper;
-  switch (formatPaper) {
-    default: {
-       formPaper = (y, mI, s, l) => {return new FlipCalendar(y, mI, s, l)};
-    }
-  }
-  for (let m in monthsArr) {
-   // console.log(`${monthsArr[m][1]}, ${monthsArr[m][0]}`)
-  }
+  },
 
-}
+  createCalendar(year, monthIndex, size, length, formatPaper, imageSrc){
+    console.log(arguments);
+    //if formatPaper == "Flip"
+    let calPaper = new Cal.FlipCalendar(year, monthIndex, size, length, imageSrc);
+    console.log(calPaper);
+    this.mountCalendar(calPaper);
+    return calPaper;
+  },
+
+  mountCalendar(calendar){
+    this.root.innerHTML = ``;
+    calendar.mount(this.root);
+  }
 }
 
 

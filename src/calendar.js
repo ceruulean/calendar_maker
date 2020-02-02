@@ -149,7 +149,7 @@ static generateDaysLabels(mini){
 /**ABSTRACT class */
 class PaperCalendar{
   constructor(year, monthIndex, size, layout){
-    this.root = createElementAttr('div');
+    this.root = document.createElement('div');
   }
 
   mount(ele){
@@ -178,14 +178,22 @@ class PaperCalendar{
 }
 
 class FlipCalendar extends PaperCalendar{
-  constructor(year, monthIndex, size = 'letter', orientation = 'landscape'){
+  constructor(year, monthIndex, size = 'letter', orientation = 'landscape', imgSrc){
     super(year, monthIndex, size, orientation);
     this.flap = document.createElement('page');
+    //let imgWrap = document.createElement('div');
+    //imgWrap.className = 'img-wrapper'
+    this.image = document.createElement('img');
+    this.image.src = imgSrc;
+   // this.flap.appendChild(imgWrap);
+   // imgWrap.appendChild(this.image);
+    this.flap.appendChild(this.image);
     this.root.appendChild(this.flap);
 
     this.paperCalendar = document.createElement('page');
-    let wtf = new Cal.Calendar(year, monthIndex);
-    this.paperCalendar.appendChild(wtf.root);
+    let wtf = new Calendar(year, monthIndex);
+    wtf.mount(this.paperCalendar);
+ //   this.paperCalendar.appendChild(wtf.root);
 
     this.root.appendChild(this.paperCalendar);
 
@@ -210,7 +218,13 @@ class FlipCalendar extends PaperCalendar{
   get size(){
     return this.flap.size;
   }
+
+  set imageFit(fit){
+    this.image.className = fit;
+  }
 }
+
+
 
 module.exports = {
   Calendar,

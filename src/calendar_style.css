@@ -221,15 +221,27 @@
   }
 }
 
+/*PAGE styles*/
+.img-wrapper{
+height:100%;
+width:100%;
+}
 
+page img{
+  width:100%;
+  height:100%;
+}
 
+page img.fill{
+  object-fit: fill;
+}
 
-/*For Demo formatting*/
-body{
-  display:flex;
-  flex-flow:row wrap;
-  justify-content:center;
-  font-family:Trebuchet, sans-serif;
+page img.contain{
+  object-fit: contain;
+}
+
+page img.cover{
+  object-fit: cover;
 }
 
 #input-date{

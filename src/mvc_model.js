@@ -25,10 +25,16 @@ const schema = {
     endyear: {
       type: 'number',
       default: thisYear,
+    },
+    format: {
+      type: 'string',
+      default: 'Flip'
     }
   },
 
   media: {},
+  mediaFill:{},
+  cover: {},
 };
 
 let save = {
@@ -54,8 +60,16 @@ let save = {
     }
     store.set('media', mediaArray);
   },
+  cover(file){
+    let test =  stringifyFile(file);
+    console.log(test);
+    store.set('cover', test);
+  },
   toolbar(prop, val){
     store.set(`toolbar.${prop}`, `${val}`);
+  },
+  mediaFill(atIndex, fillMode){
+    store.set(`mediaFill.${atIndex}`) = fillMode;
   }
 }
 
@@ -74,6 +88,9 @@ let load = {
   get media(){
     return store.get('media');
   },
+  get cover(){
+    return store.get('cover');
+  },
   get toolbar(){
     return store.get('toolbar');
   },
@@ -82,11 +99,11 @@ let load = {
 let gallery = {
   labelsArray: [],
 
-  /**Returns an array with elements ["MONTHNAME", YEAR:int???] */
+  /**Returns an array with elements ["MONTHNAME", YEAR:int???, monthINDEX] */
   generateLabels(){
     let data = store.get('toolbar');
-    this.labelsArray = this.slotInt(data, (yr, mI) => {
-      return [`${MONTHNAMES[mI]}`, `${yr}`];
+    this.labelsArray = this.slotInt((yr, mI) => {
+      return [`${MONTHNAMES[mI]}`, `${yr}`, mI];
     })
     switch (data.format) {
       case 'Wide' : {
@@ -96,7 +113,7 @@ let gallery = {
   
       }
       case 'Flip' : {
-        this.labelsArray.unshift('Cover');
+       // this.labelsArray.unshift('Cover');
       }
       default : {
   
@@ -104,7 +121,8 @@ let gallery = {
     }
     return this.labelsArray;
   },
-  slotInt(format, callback = (yr, mI) => { return [yr, mI]}){
+  slotInt(callback = (yr, mI) => { return [yr, mI]}){
+    let format = store.get('toolbar');
     let result = [];
     let m = parseInt(format.startmonth);
     let y = parseInt(format.startyear);
@@ -119,8 +137,31 @@ let gallery = {
     return result;
   },
 
+  get needsCover(){
+    switch (workspace.formatMode){
+      case `Flip`:{
+        return true;
+      }
+      case `Glance`: {
+        return false;
+      }
+      case `Wide`:{
+        return false;
+      }
+      default: {
+        return false;
+      }
+    }
+  },
+
   get totalMonths(){
   return this.labelsArray.length;
+  }
+}
+
+let workspace = {
+  get formatMode(){
+    return store.get(`toolbar.format`);
   }
 }
 
@@ -147,7 +188,7 @@ function stringifyFile(fileObject){
       'name'             : fileObject.name,
       'size'             : fileObject.size,
       'type'             : fileObject.type,
-      'path'             :fileObject.path
+      'path'             : fileObject.path
   };}  
 
   // then use JSON.stringify on File object
@@ -159,4 +200,5 @@ module.exports = {
  save,
  load,
  style,
+ workspace,
   }

@@ -1,25 +1,36 @@
 const View = require('./mvc_view.js');
 const Model = require('./mvc_model.js');
 
+
+/**
+ * Regarding selection of a gallery item
+ */
 var selected = {
   month: null,
   set selectMonth(m){
     try{
       this.month.classList.remove('selected');
       m.classList.add('selected');
-    //  Model.gallery.slotInt;
-    //  View.workspace.render(monthsArr, formatPaper);
+      let labels = Model.gallery.labelsArray;
+      let index = m.tabIndex;
+      View.workspace.createCalendar(labels[index][1],
+                                    labels[index][2],
+                                    'letter', `landscape`,
+                                    Model.workspace.formatMode,
+                                    Model.load.media[index].path);
     } catch {
 
     }
     this.month = m;
   },
   get index(){
+    if (!this.month) return -1;
     return this.month.tabIndex;
   }
 };
 
-/* INIT */
+/* =============================== 
+================ INIT ============== */
 let toolbarForm = View.toolbarInit(Model.load.toolbarInit());
 
 
@@ -38,6 +49,7 @@ let onChangeToolbar = (e, propName) => {
 
   __renderGallery();
 
+
 /* 
 
 File Upload registration
@@ -48,19 +60,37 @@ File Upload registration
 let uploadMultiple = document.getElementById('upload-multiple');
 
 let mediaUploadHandler = (event, atIndex) => {
-  //console.log('uploadalot')
+  if (atIndex === -1) {
+    Model.save.cover(event.target.files[0]);
+  } else {
     Model.save.media(event.target.files, atIndex);
-    __renderGallery();
+  }
+  __renderGallery();
 }
 
 uploadMultiple.addEventListener('change', function(e){mediaUploadHandler(e)});
-
 View.uploader.single.addEventListener('change', function(e) {mediaUploadHandler(e, selected.index)})
 
+
+/**
+ * 
+ * Render stuff
+ * 
+ * 
+ */
 function __renderGallery(){
+  View.gallery.clearPanel();
+  if (Model.gallery.needsCover) {
+    let cover = View.gallery.insertCover(Model.load.cover);
+    cover.addEventListener('click', function(){
+      if (ele.children[0].classList.contains('placeholder')) {
+        View.uploader.openSingleBrowser();
+      }
+    });
+  }
+
   let Items = View.gallery.renderPanel(Model.gallery.generateLabels(), Model.load.media);
-  //unregister things?
-  //update labels, blah blah
+
   let handler = (ele) => {
     selected.selectMonth = ele;
     if (ele.children[0].classList.contains('placeholder')) {
@@ -68,7 +98,6 @@ function __renderGallery(){
     }
   }
   for (let i = 0; i < Items.length; i++) {
-    //console.log(i);
     Items[i].addEventListener('click', function(){handler(Items[i])});
   }
   View.uploader.renderBuffer(Model.load.media, Model.gallery.totalMonths);
