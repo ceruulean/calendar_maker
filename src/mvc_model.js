@@ -29,6 +29,10 @@ const schema = {
     format: {
       type: 'string',
       default: 'Flip'
+    },
+    size:{
+      type: 'string',
+      default: 'letter'
     }
   },
 
@@ -36,6 +40,8 @@ const schema = {
   mediaFill:{},
   cover: {},
 };
+
+//store.clear();
 
 let save = {
   media(filesList, atIndex){
@@ -53,16 +59,12 @@ let save = {
           f++
           i++;
         }
-        if (i > gallery.totalMonths || f > gallery.totalMonths) {
-          break;
-        }
       }
     }
     store.set('media', mediaArray);
   },
   cover(file){
     let test =  stringifyFile(file);
-    console.log(test);
     store.set('cover', test);
   },
   toolbar(prop, val){
@@ -104,48 +106,41 @@ let gallery = {
     let data = store.get('toolbar');
     this.labelsArray = this.slotInt((yr, mI) => {
       return [`${MONTHNAMES[mI]}`, `${yr}`, mI];
-    })
-    switch (data.format) {
-      case 'Wide' : {
-  
-      }
-      case 'Glance' : {
-  
-      }
-      case 'Flip' : {
-       // this.labelsArray.unshift('Cover');
-      }
-      default : {
-  
-      }
-    }
+    });
     return this.labelsArray;
   },
   slotInt(callback = (yr, mI) => { return [yr, mI]}){
     let format = store.get('toolbar');
     let result = [];
-    let m = parseInt(format.startmonth);
-    let y = parseInt(format.startyear);
-    while (y <= parseInt(format.endyear)) {
-      while (m <= parseInt(format.endmonth)) {
-        result.push(callback(y,m));
-        m++;
+    let mi = parseInt(format.startmonth);
+    let yi = parseInt(format.startyear);
+
+    let me = parseInt(format.endmonth);
+    let ye = parseInt(format.endyear);
+
+    while (yi <= ye) {
+      //console.log(`${yi}, ${mi}`)
+      result.push(callback(yi,mi));
+      let stop = (yi == ye)? me : 11 ;
+      if (mi < stop) {
+        mi++;
+      } else {
+        mi = 0;
+        yi++;
       }
-      m = 0;
-      y++;
     }
     return result;
   },
 
   get needsCover(){
     switch (workspace.formatMode){
-      case `Flip`:{
+      case 'flip':{
         return true;
       }
-      case `Glance`: {
+      case 'glance': {
         return false;
       }
-      case `Wide`:{
+      case 'wide':{
         return false;
       }
       default: {
@@ -161,7 +156,16 @@ let gallery = {
 
 let workspace = {
   get formatMode(){
-    return store.get(`toolbar.format`);
+    return store.get('toolbar.format');
+  },
+  get paperSize(){
+    return store.get('toolbar.size');
+  },
+  get paperLayout(){
+    return store.get('toolbar.layout');
+  },
+  get coverPath(){
+    return store.get('cover').path;
   }
 }
 
@@ -193,6 +197,15 @@ function stringifyFile(fileObject){
 
   // then use JSON.stringify on File object
   return fileObject.toJSON();
+}
+
+/** Creates an array of [MONTHINDEX, YEAR] from 0-11 (Jan - Dec) */
+function wholeYear(year){
+  let array = []
+  for (let i = 0; i < 12;i++){
+    array.push([i, year])
+  }
+  return array;
 }
 
 module.exports = {

@@ -3,6 +3,7 @@
 
 :root{
   --galleryAltColor: rgb(222, 222, 222);
+  --galleryItemColor: rgb(255,255,255);
   --selectedItemColor: rgba(0,0,200,0.4);
   --thumbnail: 5rem;
 }
@@ -11,6 +12,10 @@ body{
   padding:0;
   margin:0;
   font-family:Trebuchet, sans-serif;
+}
+
+div{
+  position:relative;
 }
 
 
@@ -49,6 +54,10 @@ body{
   margin: 0 1rem 0 5rem;
 }
 
+.panel{
+  height:100%;
+}
+
 /* MAIN SPACE */
 
 
@@ -56,14 +65,40 @@ body{
   display:flex;
   flex-flow:row nowrap;
   height:80vh;
-  border: 1px solid rgba(0,0,0,0.5);
-  width:100%;
+}
+
+.mainspace > div:not(.gutter) {
+  overflow-y:scroll;
+}
+
+.resize-right{
+  height:100%;
+  width:5px;
+  background-color:pink;
+  position:absolute;
+  top:0;
+  right:0;
+  z-index:80;
+}
+
+.resize-left{
+  height:100%;
+  width:5px;
+  background-color:pink;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:80;
 }
 
 /*UPLOADER*/
-#u-buffer{
-max-width:7rem;
+#uploader{
+  position:relative;
 }
+
+/* #u-buffer{
+
+} */
 
 #u-buffer img{
   max-height:var(--thumbnail);
@@ -72,9 +107,8 @@ max-width:7rem;
 
 /* GALLERY PANEL*/
 #gallery-panel{
-  flex-basis: min-content;
+  height:100%;
   border: 1px solid rgba(0,0,0,0.5);
-  overflow-y:scroll;
   scrollbar-width: 4px; /* Firefox */
 }
 
@@ -86,6 +120,7 @@ max-width:7rem;
 .gallery.item {
   display:flex;
   flex-flow:column wrap;
+  background-color:var(--galleryItemColor);
 }
 
 .gallery.item > * {
@@ -115,6 +150,14 @@ max-width:7rem;
 #workspace{
   flex-grow:4;
   overflow:scroll;
+  position:relative;
+  display: flex;
+  padding:2rem 1rem;
+}
+
+#calendarSpace{
+  /*margin:2rem 1rem;*/
+  margin: auto;
 }
 
 
@@ -124,7 +167,28 @@ max-width:7rem;
 #properties-panel{
   flex-grow:2;
   flex-basis:fit-content;
-  min-width:10rem;
+  min-width:1px;
   border:1px dotted rgba(0,0,0,0.5);
 }
 
+/* SPLIT RESIZER STYLING */
+.split, .gutter.gutter-horizontal {
+  background-color:pink;
+  position:relative;
+}
+
+.gutter:after{
+  content:'';
+  background-color:red;
+  width:4px;
+  height:20px;
+  border-radius:50px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+}
+
+.gutter.gutter-horizontal {
+  cursor: ew-resize;
+}

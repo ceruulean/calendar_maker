@@ -180,13 +180,11 @@ class PaperCalendar{
 class FlipCalendar extends PaperCalendar{
   constructor(year, monthIndex, size = 'letter', orientation = 'landscape', imgSrc){
     super(year, monthIndex, size, orientation);
+    this.root.className = 'flip'
     this.flap = document.createElement('page');
-    //let imgWrap = document.createElement('div');
-    //imgWrap.className = 'img-wrapper'
+    
     this.image = document.createElement('img');
     this.image.src = imgSrc;
-   // this.flap.appendChild(imgWrap);
-   // imgWrap.appendChild(this.image);
     this.flap.appendChild(this.image);
     this.root.appendChild(this.flap);
 
@@ -224,11 +222,17 @@ class FlipCalendar extends PaperCalendar{
   }
 }
 
-
+let createPage = (size, layout) => {
+  let page = document.createElement('page');
+  page.setAttribute('size', size);
+  page.setAttribute('layout', layout);
+  return page;
+}
 
 module.exports = {
   Calendar,
   FlipCalendar,
   MONTHS: Calendar.MONTH,
   DAYS: Calendar.DAY,
+  createPage,
   }

@@ -1,7 +1,10 @@
+:root{
+  --paperColor: rgb(255, 255, 255);
+}
 
 /*International Metric Units*/
 page {
-  background: white;
+  background: var(--paperColor);
   display: block;
   margin: 0 auto;
   margin-bottom: 0.5cm;
