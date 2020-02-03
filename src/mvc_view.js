@@ -34,10 +34,6 @@ let toolbar = {
         maxLength: 4,
         size: 4,
       })
-      // yi.name = name;
-      // yi.type = "text";
-      // yi.maxLength = 4;
-      // yi.size = 4;
       if (defaultYear != null) {
         yi.value = defaultYear;
       } else {
@@ -162,12 +158,6 @@ let uploader = {
   }
 }
 
-let properties = {
-  renderPanel(){
-//TODO
-  }
-}
-
 let workspace = {
   root: document.getElementById('calendarSpace'),
 /**a monthsArr element should be [year:integer, monthIndex:integer] */
@@ -196,6 +186,28 @@ let workspace = {
     p.appendChild(i);
     this.root.appendChild(p);
     return p;
+  }
+}
+
+let properties = {
+  root: document.getElementById('propertySettings'),
+  renderMonth(){
+    /*
+    Month settings:
+    - Image editing / deletion / replace
+    - Image fill mode (contains blah blah)
+     */
+  },
+
+  renderGlobal(){
+    /**
+     *On Deselect/ Calendar-wide settings:
+    - Split stray dates
+    - Set Month Header font
+    - Set Number/holiday font
+    - Add holidays
+    - Show extraneous months
+     */
   }
 }
 

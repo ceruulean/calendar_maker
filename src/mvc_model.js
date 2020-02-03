@@ -84,6 +84,10 @@ let load = {
     });
     return store.get(`toolbar`);
   },
+  mediaInit(){
+    console.log(store.has('media'));
+    mediaArray = store.get('media');
+  },
   get all(){
     return store.store;
   },

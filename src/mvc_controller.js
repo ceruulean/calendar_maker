@@ -63,6 +63,8 @@ let onChangeToolbar = (e, propName) => {
   }
   __renderGallery();
 
+  Model.load.mediaInit();
+
 
 /* 
 =========================================
