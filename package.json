@@ -11,7 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^3.4.2",
-    "electron": "^7.1.10",
+    "electron": "^7.2.4",
     "electron-packager": "^14.2.0",
     "electron-store": "^5.1.0"
   },
