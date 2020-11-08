@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Calendar Maker!</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  </head>
+  <body>
+    <h1>Calendar Maker</h1>
+    <div id="toolbar">
+    </div>
+    <div class="mainspace">
+      <div id="uploader">
+          <h2>Images</h2>
+          <input type="file" id="upload-multiple" multiple accept="image/*,.pdf"></input>
+          <div id="u-buffer"></div>
+        </div>
+        <div id="gallery-panel">
+          <span id="galleryItems">
+  
+          </span>
+        </div>
+     
+      <div id="workspace">
+        <span id="calendarSpace">
+        </span>
+      </div>
+      <div id="properties-panel">
+        <h2 id="property-header">Properties</h2>
+        <span id="propertySettings">
+  
+          </span>
+      </div>
+    </div>
+    <button data-micromodal-trigger="modal-1">YAY</button>
+<!-- Modal start -->
+    <div id="modal-1" class="modal" aria-hidden="true">
+      <div class="closer" tabindex="-1" data-micromodal-close>
+        <section role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
+          <header>
+            <h2 id="modal-1-title">
+              Modal Title
+            </h2>
+            <button class="x dripicons-cross" aria-label="Close modal" data-micromodal-close></button>
+          </header>
+    
+          <div id="modal-1-content">
+            Modal Content
+          </div>
+    
+        </section>
+      </div>
+    </div>
+<!-- Modal End -->
+  <script type="text/javascript" src="/main_window/index.js"></script></body>
+</html>
