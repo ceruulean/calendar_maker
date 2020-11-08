@@ -112,6 +112,7 @@ let __renderInWorkspace = {
 
 function __renderGallery(){
 
+
   let handler = (ele) => {
     selected.selectItem = ele;
     if (ele.children[0].classList.contains('placeholder')) {
@@ -120,7 +121,7 @@ function __renderGallery(){
   }
 
   View.gallery.clearPanel();
-console.log(Model.gallery.needsCover);
+    console.log(Model.gallery.needsCover);
   if (Model.gallery.needsCover) { // Coverrrrrrrrrrrrrrrrrrrrrrrrrrr
     let cover = View.gallery.insertCover(Model.load.cover);
     cover.addEventListener('click', function(){

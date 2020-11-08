@@ -2,9 +2,8 @@ const Cal = require('./calendar');
 const Store = require('electron-store');
 let MONTHNAMES = Cal.MONTHS["MINI"];
 
-const store = new Store();
 
-let mediaArray = [];
+var mediaArray = [];
 
 var thisYear = new Date().getFullYear();
 
@@ -28,7 +27,7 @@ const schema = {
     },
     format: {
       type: 'string',
-      default: 'Flip'
+      default: 'flip'
     },
     size:{
       type: 'string',
@@ -41,7 +40,7 @@ const schema = {
   cover: {},
 };
 
-//store.clear();
+const store = new Store(schema);
 
 let save = {
   media(filesList, atIndex){
@@ -85,8 +84,9 @@ let load = {
     return store.get(`toolbar`);
   },
   mediaInit(){
-    console.log(store.has('media'));
-    mediaArray = store.get('media');
+    if (store.has('media')){
+      mediaArray = store.get('media');
+    }
   },
   get all(){
     return store.store;
@@ -137,7 +137,8 @@ let gallery = {
   },
 
   get needsCover(){
-    switch (workspace.formatMode){
+    let test = workspace.formatMode.toLowerCase();
+    switch (test){
       case 'flip':{
         return true;
       }
@@ -183,6 +184,24 @@ let style = {
   }
 }
 
+let reset = {
+  clear(){
+    store.clear();
+  },
+  all(){
+    store.set(`toolbar`, schema.toolbar);
+  },
+  media(){
+    store.set('media', {});
+  },
+  mediaFill(){
+    store.set('mediaFill', {});
+  },
+  cover(){
+    store.set('cover', {});
+  }
+}
+
 
 //=============================================================
 //====    Utility functions
@@ -200,7 +219,7 @@ function stringifyFile(fileObject){
   };}  
 
   // then use JSON.stringify on File object
-  return fileObject.toJSON();
+  return fileObject.toJSON()
 }
 
 /** Creates an array of [MONTHINDEX, YEAR] from 0-11 (Jan - Dec) */
